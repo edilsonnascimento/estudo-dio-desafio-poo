@@ -1,20 +1,29 @@
 package br.com.dio.estudo.dominio;
 
-import com.sun.jdi.Bootstrap;
+import br.com.dio.estudo.exception.BussinessException;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Dev {
     private String nome;
     private Set<Conteudo> conteudosInscritos = new LinkedHashSet<>();
     private Set<Conteudo> conteudosConcluidos = new LinkedHashSet<>();
 
-    public void inscreverBootcamp(Bootcamp bootcamp){}
-    public void profredir(){}
-    public void calcularTotalXp(){}
+    public void inscreverBootcamp(Bootcamp bootcamp){
+        this.conteudosConcluidos.addAll(bootcamp.getConteudos());
+    }
+    public void profredir() throws BussinessException {
+        Conteudo conteudo = this.conteudosInscritos.stream()
+                .findFirst()
+                .orElseThrow(() -> new BussinessException("você não está matriculado em nem um conteúdo!"));
+        this.conteudosConcluidos.add(conteudo);
+        this.conteudosInscritos.remove(conteudo);
+    }
+    public double calcularTotalXp(){
+        return this.getConteudosConcluidos().stream()
+                .mapToDouble(Conteudo::calcularXp)
+                .sum();
+    }
 
     public String getNome() {
         return nome;
