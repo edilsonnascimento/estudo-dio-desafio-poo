@@ -10,9 +10,9 @@ public class Dev {
     private Set<Conteudo> conteudosConcluidos = new LinkedHashSet<>();
 
     public void inscreverBootcamp(Bootcamp bootcamp){
-        this.conteudosConcluidos.addAll(bootcamp.getConteudos());
+        this.conteudosInscritos.addAll(bootcamp.getConteudos());
     }
-    public void profredir() throws BussinessException {
+    public void progredir() throws BussinessException {
         Conteudo conteudo = this.conteudosInscritos.stream()
                 .findFirst()
                 .orElseThrow(() -> new BussinessException("você não está matriculado em nem um conteúdo!"));
